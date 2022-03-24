@@ -8,7 +8,7 @@
             "name": "run_function_with_context_anywhere",
             "request": "launch",
             "type": "dart",
-            "program": "example/main.dart"
+            "program": "example/lib/main.dart"
         },
         {
             "name": "run_function_with_context_anywhere (profile mode)",
