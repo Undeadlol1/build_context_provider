@@ -5,13 +5,28 @@ import 'package:mocktail/mocktail.dart';
 import 'package:run_function_with_context_anywhere/function_runner_cubit.dart';
 import 'package:run_function_with_context_anywhere/invisible_listener_that_runs_functions_with_build_context.dart';
 
-class _MockedClass extends Mock {
-  void functionToTest() {}
+class _DummyClassToMock {
+  void functionToTest(BuildContext context) {}
 }
 
+class _MockedDummyClass extends Mock implements _DummyClassToMock {}
+
+class _MockedBuildContext extends Mock implements BuildContext {}
+
 final _functionRunnerCubit = FunctionRunnerCubit();
-final _mockedClassWithFunctions = _MockedClass();
+final _mockedClassWithFunctions = _MockedDummyClass();
+final _mockedBuildContext = _MockedBuildContext();
+
 void main() {
+  void mockedFunctionCall() {
+    _mockedClassWithFunctions.functionToTest(any());
+  }
+
+  setUp(() {
+    when(mockedFunctionCall).thenReturn(null);
+    registerFallbackValue(_mockedBuildContext);
+  });
+
   group(
     'InvisibleListenerThatRunsFunctionsWithBuildContext',
     () {
@@ -19,19 +34,11 @@ void main() {
         'WHEN a function is added '
         'THEN should run the function with build context',
         (tester) async {
-          void functionMock() {
-            () => _mockedClassWithFunctions.functionToTest();
-          }
-
-          when(functionMock).thenReturn(null);
-
           await _pumpWidget(tester);
-          _functionRunnerCubit.runFunction(
-            _mockedClassWithFunctions.functionToTest,
-          );
+          _functionRunnerCubit.runFunction(_mockedClassWithFunctions.functionToTest);
           await tester.pump();
 
-          verify(functionMock).called(1);
+          verify(mockedFunctionCall).called(1);
         },
       );
     },
