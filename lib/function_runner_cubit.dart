@@ -15,7 +15,6 @@ class FunctionRunnerCubit extends Cubit<ContextListenerState> {
   FunctionRunnerCubit() : super(FunctionRunnerWithoutFunctionToRun());
 
   void runFunction(void Function(BuildContext) functionToRun) {
-    debugPrint('runFunctin!');
     emit(
       FunctionRunnerWithFunctionToRun(function: functionToRun),
     );
