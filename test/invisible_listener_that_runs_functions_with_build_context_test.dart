@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -14,31 +15,56 @@ class _MockedDummyClass extends Mock implements _DummyClassToMock {}
 class _MockedBuildContext extends Mock implements BuildContext {}
 
 final _functionRunnerCubit = FunctionRunnerCubit();
-final _mockedClassWithFunctions = _MockedDummyClass();
+final _mockedDummyClass = _MockedDummyClass();
 final _mockedBuildContext = _MockedBuildContext();
 
 void main() {
-  void mockedFunctionCall() {
-    _mockedClassWithFunctions.functionToTest(any());
-  }
-
   setUp(() {
     registerFallbackValue(_mockedBuildContext);
-    when(mockedFunctionCall).thenReturn(null);
+    when(_mockedFunctionCall).thenReturn(null);
   });
 
   group(
-    'InvisibleListenerThatRunsFunctionsWithBuildContext',
+    'GIVEN InvisibleListenerThatRunsFunctionsWithBuildContext',
     () {
       testWidgets(
-        'WHEN a function is added '
+        'WHEN a function is pushed to the function runner cubit '
         'THEN should run the function with build context',
         (tester) async {
-          await _pumpWidget(tester);
-          _functionRunnerCubit.runFunction(_mockedClassWithFunctions.functionToTest);
+          await _pumpWidget(tester)
+              .then((_) => _functionRunnerCubit.runFunction(_mockedDummyClass.functionToTest));
           await tester.pump();
 
-          verify(mockedFunctionCall).called(1);
+          verify(_mockedFunctionCall).called(1);
+        },
+      );
+
+      group(
+        'WHEN is used ',
+        () {
+          testWidgets(
+            'THEN should display no visible widgets',
+            (tester) async {
+              await _pumpWidget(tester);
+
+              expect(
+                find.byWidgetPredicate((widget) => widget is Visibility && widget.visible == false),
+                findsOneWidget,
+              );
+            },
+          );
+
+          testWidgets(
+            'THEN should insert cubit into the widget',
+            (tester) async {
+              await _pumpWidget(tester);
+
+              expect(
+                find.byWidgetPredicate((widget) => widget is BlocProvider),
+                findsOneWidget,
+              );
+            },
+          );
         },
       );
     },
@@ -49,17 +75,14 @@ Future<void> _pumpWidget(WidgetTester tester) {
   return tester.pumpWidget(
     MaterialApp(
       home: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(),
-              InvisibleListenerThatRunsFunctionsWithBuildContext(
-                optionalFunctionRunnerCubitForTesting: _functionRunnerCubit,
-              ),
-            ],
-          ),
+        body: InvisibleListenerThatRunsFunctionsWithBuildContext(
+          optionalFunctionRunnerCubitForTesting: _functionRunnerCubit,
         ),
       ),
     ),
   );
+}
+
+void _mockedFunctionCall() {
+  _mockedDummyClass.functionToTest(any());
 }

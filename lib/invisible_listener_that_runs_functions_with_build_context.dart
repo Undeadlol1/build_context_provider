@@ -20,7 +20,10 @@ class InvisibleListenerThatRunsFunctionsWithBuildContext extends StatelessWidget
             state.function(buildContext);
           }
         },
-        child: Container(),
+        child: Visibility(
+          visible: false,
+          child: Container(),
+        ),
       ),
     );
   }
