@@ -2,42 +2,28 @@ library run_function_with_context_anywhere;
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import './function_runner_cubit.dart';
 
 class InvisibleListenerThatRunsFunctionsWithBuildContext
     extends StatelessWidget {
-  const InvisibleListenerThatRunsFunctionsWithBuildContext({Key? key})
+  final FunctionRunnerCubit? optionalFunctionRunnerCubitForTesting;
+  const InvisibleListenerThatRunsFunctionsWithBuildContext(
+      {Key? key, this.optionalFunctionRunnerCubitForTesting})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<_FunctionRunnerCubit, _ContextListenerState>(
-      listener: (context, state) {
-        if (state is _FunctionRunnerWithFunctionToRun) {
-          state.function();
-        }
-      },
-      child: Container(),
+    return BlocProvider<FunctionRunnerCubit>(
+      create: (_) =>
+          optionalFunctionRunnerCubitForTesting ?? FunctionRunnerCubit(),
+      child: BlocListener<FunctionRunnerCubit, ContextListenerState>(
+        listener: (context, state) {
+          if (state is FunctionRunnerWithFunctionToRun) {
+            state.function();
+          }
+        },
+        child: Container(),
+      ),
     );
-  }
-}
-
-abstract class _ContextListenerState {}
-
-class _FunctionRunnerWithFunctionToRun extends _ContextListenerState {
-  final VoidCallback function;
-
-  _FunctionRunnerWithFunctionToRun({required this.function});
-}
-
-class _FunctionRunnerWithoutFunctionToRun extends _ContextListenerState {}
-
-class _FunctionRunnerCubit extends Cubit<_ContextListenerState> {
-  _FunctionRunnerCubit() : super(_FunctionRunnerWithoutFunctionToRun());
-
-  void runFunction(VoidCallback functionToRun) {
-    emit(
-      _FunctionRunnerWithFunctionToRun(function: functionToRun),
-    );
-    Future.microtask(() => emit(_FunctionRunnerWithoutFunctionToRun()));
   }
 }
