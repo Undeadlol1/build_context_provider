@@ -23,8 +23,8 @@ void main() {
   }
 
   setUp(() {
-    when(mockedFunctionCall).thenReturn(null);
     registerFallbackValue(_mockedBuildContext);
+    when(mockedFunctionCall).thenReturn(null);
   });
 
   group(
