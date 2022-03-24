@@ -3,8 +3,8 @@ library run_function_with_context_anywhere;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ContextfullFunctionRunner extends StatelessWidget {
-  const ContextfullFunctionRunner({Key? key}) : super(key: key);
+class InvisibleListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
+  const InvisibleListenerThatRunsFunctionsWithBuildContext({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
