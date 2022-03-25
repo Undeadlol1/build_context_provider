@@ -6,22 +6,28 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        body: const SingleChildScrollView(
+        body: SingleChildScrollView(
           child: InvisibleListenerThatRunsFunctionsWithBuildContext(),
         ),
         floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () => FunctionRunner.runFunction(_displaySnackbar),
+          child: Icon(Icons.add),
+          onPressed: _displaySnackbar,
         ),
       ),
     );
   }
 }
 
-void _displaySnackbar(BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: _Snackbar()));
+void _displaySnackbar() {
+  FunctionRunner.runFunction((context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: _Snackbar(),
+      ),
+    );
+  });
 }
 
 class _Snackbar extends StatelessWidget {
