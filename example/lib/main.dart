@@ -21,19 +21,24 @@ class _App extends StatelessWidget {
 }
 
 void _displaySnackbar(BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: SizedBox(
-        height: 100,
-        child: Column(
-          children: const [
-            Text('If you see this snackbar then everything is working properly.'),
-            Text('Function that creates this snackbar was called without a build context.')
-          ],
-        ),
+  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: _Snackbar()));
+}
+
+class _Snackbar extends StatelessWidget {
+  const _Snackbar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 100,
+      child: Column(
+        children: const [
+          Text('If you see this snackbar then everything is working properly.'),
+          Text('Function that creates this snackbar was called without a build context.')
+        ],
       ),
-    ),
-  );
+    );
+  }
 }
 
 void main(List<String> args) {
