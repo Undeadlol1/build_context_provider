@@ -48,7 +48,7 @@ Future<void> _pumpWidget(WidgetTester tester) {
           child: Column(
             children: [
               Container(),
-              InvisibleListenerThatRunsFunctionsWithBuildContext(),
+              const InvisibleListenerThatRunsFunctionsWithBuildContext(),
             ],
           ),
         ),
