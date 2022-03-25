@@ -6,12 +6,31 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: SingleChildScrollView(
-          child: InvisibleListenerThatRunsFunctionsWithBuildContext(),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Builder(
+                    builder: (buildContext) {
+                      return ElevatedButton(
+                        onPressed: () => ScaffoldMessenger.of(buildContext).clearSnackBars(),
+                        child: const Text('Clear snackbars'),
+                      );
+                    },
+                  ),
+                ),
+                const InvisibleListenerThatRunsFunctionsWithBuildContext(),
+              ],
+            ),
+          ),
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: const FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: _displaySnackbar,
         ),
