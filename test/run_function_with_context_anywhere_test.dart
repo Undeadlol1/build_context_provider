@@ -36,7 +36,7 @@ void main() {
         'THEN should run the function with build context',
         (tester) async {
           await _pumpWidget(tester);
-          FunctionRunner.runFunction(_mockedClassWithFunctions.firstFunctionToTest);
+          BuildContextProvider.provideBuildContext(_mockedClassWithFunctions.firstFunctionToTest);
           await tester.pump();
 
           verify(_mockedFunctionCall).called(1);
@@ -52,8 +52,8 @@ void main() {
           }
 
           await _pumpWidget(tester);
-          FunctionRunner.runFunction(_mockedClassWithFunctions.secondFunctionToTest);
-          FunctionRunner.runFunction(_mockedClassWithFunctions.secondFunctionToTest);
+          BuildContextProvider.provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
+          BuildContextProvider.provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
           await tester.pump();
 
           verify(mockedFunctionCall).called(2);

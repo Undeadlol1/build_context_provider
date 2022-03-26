@@ -19,8 +19,8 @@ class _App extends StatelessWidget {
                   child: Builder(
                     builder: (buildContext) {
                       return ElevatedButton(
-                        onPressed: () => ScaffoldMessenger.of(buildContext).clearSnackBars(),
                         child: const Text('Clear snackbars'),
+                        onPressed: () => ScaffoldMessenger.of(buildContext).clearSnackBars(),
                       );
                     },
                   ),
@@ -40,7 +40,7 @@ class _App extends StatelessWidget {
 }
 
 void _displaySnackbar() {
-  FunctionRunner.runFunction((context) {
+  provideBuildContext((context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: _Snackbar(),
