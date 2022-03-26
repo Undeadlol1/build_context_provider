@@ -25,7 +25,7 @@ class _App extends StatelessWidget {
                     },
                   ),
                 ),
-                const InvisibleListenerThatRunsFunctionsWithBuildContext(),
+                const ListenerThatRunsFunctionsWithBuildContext(),
               ],
             ),
           ),

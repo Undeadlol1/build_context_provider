@@ -29,7 +29,7 @@ void main() {
 
               expect(
                 find.descendant(
-                  of: find.byType(InvisibleListenerThatRunsFunctionsWithBuildContext),
+                  of: find.byType(ListenerThatRunsFunctionsWithBuildContext),
                   matching: find.byType(AnimatedBuilder),
                 ),
                 findsOneWidget,
@@ -46,7 +46,7 @@ Future<void> _pumpWidget(WidgetTester tester) {
   return tester.pumpWidget(
     const MaterialApp(
       home: Scaffold(
-        body: InvisibleListenerThatRunsFunctionsWithBuildContext(),
+        body: ListenerThatRunsFunctionsWithBuildContext(),
       ),
     ),
   );

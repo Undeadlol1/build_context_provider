@@ -4,16 +4,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:run_function_with_context_anywhere/function_runner_change_notifier.dart';
 
-class InvisibleListenerThatRunsFunctionsWithBuildContext extends StatefulWidget {
-  const InvisibleListenerThatRunsFunctionsWithBuildContext({Key? key}) : super(key: key);
+class ListenerThatRunsFunctionsWithBuildContext extends StatefulWidget {
+  const ListenerThatRunsFunctionsWithBuildContext({Key? key}) : super(key: key);
 
   @override
-  State<InvisibleListenerThatRunsFunctionsWithBuildContext> createState() =>
-      _InvisibleListenerThatRunsFunctionsWithBuildContextState();
+  State<ListenerThatRunsFunctionsWithBuildContext> createState() =>
+      _ListenerThatRunsFunctionsWithBuildContextState();
 }
 
-class _InvisibleListenerThatRunsFunctionsWithBuildContextState
-    extends State<InvisibleListenerThatRunsFunctionsWithBuildContext> {
+class _ListenerThatRunsFunctionsWithBuildContextState
+    extends State<ListenerThatRunsFunctionsWithBuildContext> {
   bool _wasListenerAddedToChangeNotifier = false;
 
   @override
