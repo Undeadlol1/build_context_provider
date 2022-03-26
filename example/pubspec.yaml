@@ -27,7 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  run_function_with_context_anywhere:
+  build_context_provider:
     path: ../
   flutter:
     sdk: flutter

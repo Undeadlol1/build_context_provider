@@ -1,4 +1,4 @@
-name: run_function_with_context_anywhere
+name: build_context_provider
 description: A new Flutter package project.
 version: 0.0.1
 homepage:

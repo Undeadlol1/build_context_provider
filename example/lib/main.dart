@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:run_function_with_context_anywhere/run_function_with_context_anywhere.dart';
+import 'package:build_context_provider/build_context_provider.dart';
 
 class _App extends StatelessWidget {
   const _App({Key? key}) : super(key: key);

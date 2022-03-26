@@ -5,19 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "run_function_with_context_anywhere",
+            "name": "build_context_provider",
             "request": "launch",
             "type": "dart",
             "program": "example/lib/main.dart"
         },
         {
-            "name": "run_function_with_context_anywhere (profile mode)",
+            "name": "build_context_provider (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "run_function_with_context_anywhere (release mode)",
+            "name": "build_context_provider (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
