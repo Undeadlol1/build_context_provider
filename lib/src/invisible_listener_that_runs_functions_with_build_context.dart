@@ -23,7 +23,10 @@ class _ListenerThatRunsFunctionsWithBuildContextState
 
   @override
   Widget build(BuildContext context) {
-    if (_wasListenerAddedToChangeNotifier == false) {
+    final doesNotHaveExtraListeners =
+        functionRunnerChangeNotifier.hasListeners != true;
+    if (_wasListenerAddedToChangeNotifier == false &&
+        doesNotHaveExtraListeners) {
       functionRunnerChangeNotifier.addListener(_runFunctionsWhenAdded);
       setState(() => _wasListenerAddedToChangeNotifier = true);
     }
