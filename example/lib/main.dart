@@ -7,33 +7,71 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Builder(
-                    builder: (buildContext) {
-                      return ElevatedButton(
-                        child: const Text('Clear snackbars'),
-                        onPressed: () => ScaffoldMessenger.of(buildContext).clearSnackBars(),
-                      );
-                    },
-                  ),
-                ),
-                const ListenerThatRunsFunctionsWithBuildContext(),
-              ],
-            ),
+      initialRoute: '/first',
+      routes: {
+        '/first': (context) => const _Layout(child: _FirstScreen()),
+        '/second': (context) => const _Layout(child: _SecondScreen()),
+      },
+    );
+  }
+}
+
+class _FirstScreen extends StatelessWidget {
+  const _FirstScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('First screen'),
+    );
+  }
+}
+
+class _SecondScreen extends StatelessWidget {
+  const _SecondScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Second screen'),
+    );
+  }
+}
+
+class _Layout extends StatelessWidget {
+  final Widget child;
+  const _Layout({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            child,
+            const ListenerThatRunsFunctionsWithBuildContext(),
+          ],
+        ),
+      ),
+      persistentFooterButtons: [
+        ElevatedButton(
+          child: const Text('Go to first screen'),
+          onPressed: () => provideBuildContext(
+            (context) => Navigator.pushNamed(context, '/first'),
           ),
         ),
-        floatingActionButton: const FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: _displaySnackbar,
+        ElevatedButton(
+          child: const Text('Go to second screen'),
+          onPressed: () => provideBuildContext(
+            (context) => Navigator.pushNamed(context, '/second'),
+          ),
         ),
+      ],
+      floatingActionButton: const FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: _displaySnackbar,
       ),
     );
   }
@@ -59,7 +97,9 @@ class _Snackbar extends StatelessWidget {
       child: Column(
         children: const [
           Text('If you see this snackbar then everything is working properly.'),
-          Text('Function that creates this snackbar was called without a build context.')
+          Text(
+            'Function that creates this snackbar was called without a build context.',
+          )
         ],
       ),
     );
