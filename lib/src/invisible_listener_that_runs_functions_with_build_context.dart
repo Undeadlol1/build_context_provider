@@ -17,19 +17,13 @@ class _ListenerThatRunsFunctionsWithBuildContextState
 
   @override
   void dispose() {
-    functionRunnerChangeNotifier.removeListener(_runFunctionsWhenAdded);
+    functionRunnerChangeNotifier.removeListener(_runFunctionsWhenAddedListener);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final doesNotHaveExtraListeners =
-        functionRunnerChangeNotifier.hasListeners != true;
-    if (_wasListenerAddedToChangeNotifier == false &&
-        doesNotHaveExtraListeners) {
-      functionRunnerChangeNotifier.addListener(_runFunctionsWhenAdded);
-      setState(() => _wasListenerAddedToChangeNotifier = true);
-    }
+    _setupUpFunctionRunnerListener();
 
     return AnimatedBuilder(
       animation: functionRunnerChangeNotifier,
@@ -41,7 +35,17 @@ class _ListenerThatRunsFunctionsWithBuildContextState
     );
   }
 
-  void _runFunctionsWhenAdded() {
+  void _setupUpFunctionRunnerListener() {
+    if (_wasListenerAddedToChangeNotifier ||
+        functionRunnerChangeNotifier.hasListeners) {
+      return;
+    }
+
+    functionRunnerChangeNotifier.addListener(_runFunctionsWhenAddedListener);
+    setState(() => _wasListenerAddedToChangeNotifier = true);
+  }
+
+  void _runFunctionsWhenAddedListener() {
     Future.microtask(() {
       if (functionRunnerChangeNotifier.functionToRun == null) {
         return;
