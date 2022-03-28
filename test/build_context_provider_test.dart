@@ -36,7 +36,7 @@ void main() {
         'THEN should run the function with build context',
         (tester) async {
           await _pumpWidget(tester);
-          BuildContextProvider.provideBuildContext(_mockedClassWithFunctions.firstFunctionToTest);
+          provideBuildContext(_mockedClassWithFunctions.firstFunctionToTest);
           await tester.pump();
 
           verify(_mockedFunctionCall).called(1);
@@ -52,8 +52,8 @@ void main() {
           }
 
           await _pumpWidget(tester);
-          BuildContextProvider.provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
-          BuildContextProvider.provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
+          provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
+          provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
           await tester.pump();
 
           verify(mockedFunctionCall).called(2);
@@ -64,23 +64,23 @@ void main() {
         'WHEN a function is added '
         'THEN returned result from function should be usable',
         (tester) async {
-          bool aValueToBeChangedToTrue = false;
           int howManyTimesHaveTheFunctionRan = 0;
+          bool aValueToBeReturnedFromTheFunction = false;
 
           bool functionThatReturnsValue(BuildContext context) {
             ++howManyTimesHaveTheFunctionRan;
             return true;
           }
 
-          void aFunctionThatCapturesReturnedResult(BuildContext context) {
-            aValueToBeChangedToTrue = functionThatReturnsValue(context);
+          void aFunctionThatCapturesReturnedValue(BuildContext context) {
+            aValueToBeReturnedFromTheFunction = functionThatReturnsValue(context);
           }
 
           await _pumpWidget(tester);
-          BuildContextProvider.provideBuildContext(aFunctionThatCapturesReturnedResult);
+          provideBuildContext(aFunctionThatCapturesReturnedValue);
           await tester.pump();
 
-          expect(aValueToBeChangedToTrue, isTrue);
+          expect(aValueToBeReturnedFromTheFunction, isTrue);
           expect(howManyTimesHaveTheFunctionRan, 1);
         },
       );
