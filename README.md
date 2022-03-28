@@ -54,3 +54,24 @@ class GoToProfilePage {
 // This line can be used anywhere. As you can see there you are not tied to build context anymore.
 GoToProfilePage.call();
 ```
+
+## Tips:
+
+How does one use a value returned by the function? You must wrap your function and capture its result.
+
+```dart
+bool aValueToBeReturnedFromTheFunction = false;
+
+bool functionThatReturnsValue(BuildContext context) {
+  Navigator.of(context).pushNamed('/profile');
+  return true;
+}
+
+void aFunctionThatCapturesReturnedValue(BuildContext context) {
+  aValueToBeReturnedFromTheFunction = functionThatReturnsValue(context);
+}
+
+provideBuildContext(aFunctionThatCapturesReturnedValue);
+
+expect(aValueToBeReturnedFromTheFunction, isTrue);
+```
