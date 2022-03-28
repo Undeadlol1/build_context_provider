@@ -24,7 +24,6 @@ A package that allows you to run functions that require BuildContext outside of 
       ),
 ```
 
-
 ## Usage
 
 Wrap any functions that you want to run with a provider:
@@ -39,4 +38,19 @@ or
 BuildContextProvider.provideBuildContext(
     (context) => Navigator.pushNamed(context, '/somewhere'),
 ),
+```
+
+## Examples:
+
+```dart
+class GoToProfilePage {
+  static void call() {
+    provideBuildContext(
+      (context) => Navigator.pushNamed(context, '/profile'),
+    );
+  }
+}
+
+// This line can be used anywhere. As you can see there you are not tied to build context anymore.
+GoToProfilePage.call();
 ```
