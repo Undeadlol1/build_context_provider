@@ -51,7 +51,7 @@ class GoToProfilePage {
   }
 }
 
-// This line can be used anywhere. As you can see there you are not tied to build context anymore.
+// This line can be used anywhere. As you can see you are not tied to build context anymore.
 GoToProfilePage.call();
 ```
 
