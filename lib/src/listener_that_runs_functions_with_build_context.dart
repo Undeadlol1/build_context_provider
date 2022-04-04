@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter/foundation.dart';
 
 import 'function_runner_change_notifier.dart';
 
+/// A widget that runs the functions with build context.
+/// Without this widget present in the application functions will not run.
 class ListenerThatRunsFunctionsWithBuildContext extends StatefulWidget {
   const ListenerThatRunsFunctionsWithBuildContext({Key? key}) : super(key: key);
 

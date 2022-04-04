@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:build_context_provider/build_context_provider.dart';
 
+void _displaySnackbar() {
+  provideBuildContext((context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: _Snackbar(),
+      ),
+    );
+  });
+}
+
 class _App extends StatelessWidget {
   const _App({Key? key}) : super(key: key);
 
@@ -75,16 +85,6 @@ class _Layout extends StatelessWidget {
       ),
     );
   }
-}
-
-void _displaySnackbar() {
-  provideBuildContext((context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: _Snackbar(),
-      ),
-    );
-  });
 }
 
 class _Snackbar extends StatelessWidget {
