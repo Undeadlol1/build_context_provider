@@ -4,7 +4,7 @@ import 'package:build_context_provider/build_context_provider.dart';
 
 void main() {
   group(
-    'GIVEN InvisibleListenerThatRunsFunctionsWithBuildContext',
+    'GIVEN ListenerThatRunsFunctionsWithBuildContext',
     () {
       group(
         'WHEN is used ',

@@ -36,8 +36,7 @@ class _ListenerThatRunsFunctionsWithBuildContextState
   }
 
   void _setupUpFunctionRunnerListener() {
-    if (_wasListenerAddedToChangeNotifier ||
-        functionRunnerChangeNotifier.hasListeners) {
+    if (_wasListenerAddedToChangeNotifier || functionRunnerChangeNotifier.hasListeners) {
       return;
     }
 
