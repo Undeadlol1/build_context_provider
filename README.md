@@ -40,7 +40,7 @@ BuildContextProvider.provideBuildContext(
 ),
 ```
 
-## Examples:
+## Examples
 
 ```dart
 class GoToProfilePage {
@@ -55,7 +55,7 @@ class GoToProfilePage {
 GoToProfilePage.call();
 ```
 
-## Tips:
+## Tips
 
 How does one use a value returned by the function? You must wrap your function and capture its result.
 
@@ -75,3 +75,8 @@ provideBuildContext(aFunctionThatCapturesReturnedValue);
 
 expect(aValueToBeReturnedFromTheFunction, isTrue);
 ```
+
+## Design Principles
+
+1) No external libraries
+2) Do a single thing and nothing else
