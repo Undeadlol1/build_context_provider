@@ -18,8 +18,16 @@ class _ListenerThatRunsFunctionsWithBuildContextState
 
   @override
   void dispose() {
-    functionRunnerChangeNotifier.removeListener(_runFunctionsWhenAddedListener);
+    functionRunnerChangeNotifier.removeListener(_runFunctionWhenNotified);
     super.dispose();
+  }
+
+  void _runFunctionWhenNotified() {
+    final functionToRun = functionRunnerChangeNotifier.functionToRun;
+
+    Future.microtask(
+      () => functionToRun == null ? null : functionToRun(context),
+    );
   }
 
   @override
@@ -37,21 +45,12 @@ class _ListenerThatRunsFunctionsWithBuildContextState
   }
 
   void _setupUpFunctionRunnerListener() {
-    if (_wasListenerAddedToChangeNotifier || functionRunnerChangeNotifier.hasListeners) {
+    if (_wasListenerAddedToChangeNotifier ||
+        functionRunnerChangeNotifier.hasListeners) {
       return;
     }
 
-    functionRunnerChangeNotifier.addListener(_runFunctionsWhenAddedListener);
+    functionRunnerChangeNotifier.addListener(_runFunctionWhenNotified);
     setState(() => _wasListenerAddedToChangeNotifier = true);
-  }
-
-  void _runFunctionsWhenAddedListener() {
-    Future.microtask(() {
-      if (functionRunnerChangeNotifier.functionToRun == null) {
-        return;
-      }
-
-      functionRunnerChangeNotifier.functionToRun!(context);
-    });
   }
 }
