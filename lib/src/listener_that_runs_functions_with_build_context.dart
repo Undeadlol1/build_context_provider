@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 
 import 'function_runner_change_notifier.dart';
@@ -18,25 +16,13 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
     return StreamBuilder<void Function(BuildContext)?>(
       stream: functionsStreamController.stream,
       builder: (context, snapshot) {
-        _runFunctionWhenNotified(
-          buildContext: context,
-          functionToRun: snapshot.data,
-        );
+        if (snapshot.hasData) {
+          Future.microtask(() => snapshot.data!(context));
+        }
 
         return _invisibleWidget;
       },
     );
-  }
-
-  void _runFunctionWhenNotified({
-    required BuildContext buildContext,
-    void Function(BuildContext)? functionToRun,
-  }) {
-    if (functionToRun == null) {
-      return;
-    }
-
-    Future.microtask(() => functionToRun(buildContext));
   }
 
   static const _invisibleWidget = Visibility(
