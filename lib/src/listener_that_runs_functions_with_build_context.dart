@@ -18,7 +18,7 @@ class _ListenerThatRunsFunctionsWithBuildContextState
     extends State<ListenerThatRunsFunctionsWithBuildContext> {
   @override
   void dispose() {
-    functionRunnerStream.close();
+    FunctionRunnerChangeNotifier().dispose();
     super.dispose();
   }
 

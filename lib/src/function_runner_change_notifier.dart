@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 final functionRunnerStream = StreamController<void Function(BuildContext)?>();
 
-class _FunctionRunnerChangeNotifier {
+class FunctionRunnerChangeNotifier {
   void runFunction(Function(BuildContext) function) {
     functionRunnerStream.add(function);
   }
@@ -14,4 +14,4 @@ class _FunctionRunnerChangeNotifier {
   }
 }
 
-final functionRunnerChangeNotifier = _FunctionRunnerChangeNotifier();
+final functionRunnerChangeNotifier = FunctionRunnerChangeNotifier();
