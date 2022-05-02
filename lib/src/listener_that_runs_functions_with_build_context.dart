@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
 import 'function_runner_change_notifier.dart';
@@ -14,43 +16,37 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatefulWidget {
 
 class _ListenerThatRunsFunctionsWithBuildContextState
     extends State<ListenerThatRunsFunctionsWithBuildContext> {
-  bool _wasListenerAddedToChangeNotifier = false;
-
   @override
   void dispose() {
-    functionRunnerChangeNotifier.removeListener(_runFunctionWhenNotified);
+    functionRunnerStream.close();
     super.dispose();
   }
 
-  void _runFunctionWhenNotified() {
-    final functionToRun = functionRunnerChangeNotifier.functionToRun;
-
+  void _runFunctionWhenNotified(void Function(BuildContext)? functionToRun) {
     Future.microtask(
-      () => functionToRun == null ? null : functionToRun(context),
+      () {
+        functionToRun == null ? null : functionToRun(context);
+
+        functionRunnerStream.add(null);
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    _setupUpFunctionRunnerListener();
+    return StreamBuilder(
+      stream: functionRunnerStream.stream,
+      builder: (context, AsyncSnapshot<void Function(BuildContext)?> snapshot) {
+        if (snapshot.hasData) {
+          _runFunctionWhenNotified(snapshot.data);
+          // snapshot.data();
+        }
 
-    return AnimatedBuilder(
-      animation: functionRunnerChangeNotifier,
-      child: Visibility(
-        visible: false,
-        child: Container(),
-      ),
-      builder: (_, child) => child!,
+        return Visibility(
+          visible: false,
+          child: Container(),
+        );
+      },
     );
-  }
-
-  void _setupUpFunctionRunnerListener() {
-    if (_wasListenerAddedToChangeNotifier ||
-        functionRunnerChangeNotifier.hasListeners) {
-      return;
-    }
-
-    functionRunnerChangeNotifier.addListener(_runFunctionWhenNotified);
-    setState(() => _wasListenerAddedToChangeNotifier = true);
   }
 }

@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
-class _FunctionRunnerChangeNotifier extends ChangeNotifier {
-  void Function(BuildContext)? functionToRun;
+final functionRunnerStream = StreamController<void Function(BuildContext)?>();
 
+class _FunctionRunnerChangeNotifier {
   void runFunction(Function(BuildContext) function) {
-    functionToRun = function;
-    notifyListeners();
+    functionRunnerStream.add(function);
+  }
+
+  void dispose() {
+    functionRunnerStream.close();
   }
 }
 
