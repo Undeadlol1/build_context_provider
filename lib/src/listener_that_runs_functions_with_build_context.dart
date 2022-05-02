@@ -18,18 +18,18 @@ class _ListenerThatRunsFunctionsWithBuildContextState
     extends State<ListenerThatRunsFunctionsWithBuildContext> {
   @override
   void dispose() async {
-    await funcstionsStreamController.close();
+    await functionsStreamController.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (funcstionsStreamController.hasListener) {
+    if (functionsStreamController.hasListener) {
       return _invisibleWidget;
     }
 
     return StreamBuilder(
-      stream: funcstionsStreamController.stream,
+      stream: functionsStreamController.stream,
       builder: (context, AsyncSnapshot<void Function(BuildContext)?> snapshot) {
         if (snapshot.hasData) {
           _runFunctionWhenNotified(
