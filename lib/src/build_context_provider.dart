@@ -5,7 +5,7 @@ class BuildContextProvider {
   static void provideBuildContext(
     void Function(BuildContext) functionToRun,
   ) {
-    functionRunnerChangeNotifier.runFunction(functionToRun);
+    FunctionRunnerChangeNotifier().runFunction(functionToRun);
   }
 }
 
