@@ -15,7 +15,10 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
       stream: FunctionRunnerChangeNotifier.stream,
       builder: (context, AsyncSnapshot<void Function(BuildContext)?> snapshot) {
         if (snapshot.hasData) {
-          _runFunctionWhenNotified(functionToRun: snapshot.data, buildContext: context);
+          _runFunctionWhenNotified(
+            buildContext: context,
+            functionToRun: snapshot.data,
+          );
         }
 
         return Visibility(
@@ -30,9 +33,13 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
     required BuildContext buildContext,
     void Function(BuildContext)? functionToRun,
   }) {
+    if (functionToRun == null) {
+      return;
+    }
+
     Future.microtask(
       () {
-        functionToRun == null ? null : functionToRun(buildContext);
+        functionToRun(buildContext);
       },
     );
   }
