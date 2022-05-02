@@ -4,15 +4,34 @@ import 'package:flutter/widgets.dart';
 
 import 'function_runner_change_notifier.dart';
 
+bool globalVariable = false;
+
 /// A widget that runs the functions with build context.
 /// Without this widget present in the application functions will not run.
-class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
+class ListenerThatRunsFunctionsWithBuildContext extends StatefulWidget {
   const ListenerThatRunsFunctionsWithBuildContext({Key? key}) : super(key: key);
 
   @override
+  State<ListenerThatRunsFunctionsWithBuildContext> createState() =>
+      _ListenerThatRunsFunctionsWithBuildContextState();
+}
+
+class _ListenerThatRunsFunctionsWithBuildContextState
+    extends State<ListenerThatRunsFunctionsWithBuildContext> {
+  @override
+  void dispose() async {
+    await funcstionsStreamController.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (funcstionsStreamController.hasListener) {
+      return _invisibleWidget;
+    }
+
     return StreamBuilder(
-      stream: FunctionRunnerChangeNotifier.stream,
+      stream: funcstionsStreamController.stream,
       builder: (context, AsyncSnapshot<void Function(BuildContext)?> snapshot) {
         if (snapshot.hasData) {
           _runFunctionWhenNotified(
@@ -21,10 +40,7 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
           );
         }
 
-        return Visibility(
-          visible: false,
-          child: Container(),
-        );
+        return _invisibleWidget;
       },
     );
   }
@@ -39,4 +55,9 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
 
     Future.microtask(() => functionToRun(buildContext));
   }
+
+  static const _invisibleWidget = Visibility(
+    visible: false,
+    child: SizedBox(),
+  );
 }

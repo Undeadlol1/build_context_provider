@@ -2,17 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-final functionRunnerStream = StreamController<void Function(BuildContext)?>();
+final funcstionsStreamController = StreamController<void Function(BuildContext)?>();
 
 class FunctionRunnerChangeNotifier {
-  static final stream = functionRunnerStream.stream.asBroadcastStream();
-
   void runFunction(Function(BuildContext) function) {
-    functionRunnerStream.add(function);
+    funcstionsStreamController.add(function);
   }
 
   void dispose() {
-    functionRunnerStream.close();
+    funcstionsStreamController.close();
   }
 }
 
