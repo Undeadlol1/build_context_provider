@@ -37,10 +37,6 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
       return;
     }
 
-    Future.microtask(
-      () {
-        functionToRun(buildContext);
-      },
-    );
+    Future.microtask(() => functionToRun(buildContext));
   }
 }
