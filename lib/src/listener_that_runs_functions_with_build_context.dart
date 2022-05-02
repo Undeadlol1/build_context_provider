@@ -15,15 +15,13 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
       return _invisibleWidget;
     }
 
-    return StreamBuilder(
+    return StreamBuilder<void Function(BuildContext)?>(
       stream: functionsStreamController.stream,
-      builder: (context, AsyncSnapshot<void Function(BuildContext)?> snapshot) {
-        if (snapshot.hasData) {
-          _runFunctionWhenNotified(
-            buildContext: context,
-            functionToRun: snapshot.data,
-          );
-        }
+      builder: (context, snapshot) {
+        _runFunctionWhenNotified(
+          buildContext: context,
+          functionToRun: snapshot.data,
+        );
 
         return _invisibleWidget;
       },
