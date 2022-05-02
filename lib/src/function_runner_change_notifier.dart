@@ -9,9 +9,7 @@ class FunctionRunnerChangeNotifier {
     funcstionsStreamController.add(function);
   }
 
-  void dispose() {
-    funcstionsStreamController.close();
+  Future dispose() {
+    return funcstionsStreamController.close();
   }
 }
-
-final functionRunnerChangeNotifier = FunctionRunnerChangeNotifier();
