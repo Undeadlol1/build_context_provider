@@ -8,8 +8,4 @@ class FunctionRunnerChangeNotifier {
   void runFunction(Function(BuildContext) function) {
     functionsStreamController.add(function);
   }
-
-  Future dispose() {
-    return functionsStreamController.close();
-  }
 }

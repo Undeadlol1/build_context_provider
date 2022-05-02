@@ -6,21 +6,8 @@ import 'function_runner_change_notifier.dart';
 
 /// A widget that runs the functions with build context.
 /// Without this widget present in the application functions will not run.
-class ListenerThatRunsFunctionsWithBuildContext extends StatefulWidget {
+class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
   const ListenerThatRunsFunctionsWithBuildContext({Key? key}) : super(key: key);
-
-  @override
-  State<ListenerThatRunsFunctionsWithBuildContext> createState() =>
-      _ListenerThatRunsFunctionsWithBuildContextState();
-}
-
-class _ListenerThatRunsFunctionsWithBuildContextState
-    extends State<ListenerThatRunsFunctionsWithBuildContext> {
-  @override
-  void dispose() async {
-    await functionsStreamController.close();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
