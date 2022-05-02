@@ -12,7 +12,7 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: functionRunnerStream.stream,
+      stream: FunctionRunnerChangeNotifier.stream,
       builder: (context, AsyncSnapshot<void Function(BuildContext)?> snapshot) {
         if (snapshot.hasData) {
           _runFunctionWhenNotified(functionToRun: snapshot.data, buildContext: context);
@@ -33,8 +33,6 @@ class ListenerThatRunsFunctionsWithBuildContext extends StatelessWidget {
     Future.microtask(
       () {
         functionToRun == null ? null : functionToRun(buildContext);
-
-        functionRunnerStream.add(null);
       },
     );
   }
