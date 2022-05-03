@@ -18,7 +18,7 @@ final _mockedFunctions = _MockedDummyClass();
 
 void main() {
   group(
-    'Run function with build context tests - ',
+    'GIVEN BuildContextProvider',
     () {
       setUp(() {
         registerFallbackValue(_MockedBuildContext());
@@ -31,17 +31,39 @@ void main() {
         clearInteractions(_mockedFunctions);
       });
 
-      testWidgets(
-        'WHEN a function is added '
-        'THEN should run the function with build context',
-        (tester) async {
-          await _pumpWidget(tester);
-          provideBuildContext(_mockedFunctions.firstFunction);
-          await tester.pump();
+      group('WHEN a function is added', () {
+        testWidgets(
+          'THEN should run the function with build context',
+          (tester) async {
+            await _pumpWidget(tester);
+            provideBuildContext(_mockedFunctions.firstFunction);
+            await tester.pump();
 
-          verify(_mockedFunctionCall).called(1);
-        },
-      );
+            verify(_mockedFunctionCall).called(1);
+          },
+        );
+
+        testWidgets(
+          'THEN returned result from function should be usable',
+          (tester) async {
+            int howManyTimesHaveTheFunctionRan = 0;
+            bool aValueToBeReturnedFromTheFunction = false;
+            bool functionThatReturnsValue(BuildContext context) {
+              ++howManyTimesHaveTheFunctionRan;
+              return true;
+            }
+
+            await _pumpWidget(tester);
+            provideBuildContext((context) {
+              aValueToBeReturnedFromTheFunction = functionThatReturnsValue(context);
+            });
+            await tester.pump();
+
+            expect(aValueToBeReturnedFromTheFunction, isTrue);
+            expect(howManyTimesHaveTheFunctionRan, 1);
+          },
+        );
+      });
 
       testWidgets(
         'WHEN a function is added twice '
@@ -55,28 +77,6 @@ void main() {
           verify(
             () => _mockedFunctions.secondFunction(any()),
           ).called(2);
-        },
-      );
-
-      testWidgets(
-        'WHEN a function is added '
-        'THEN returned result from function should be usable',
-        (tester) async {
-          int howManyTimesHaveTheFunctionRan = 0;
-          bool aValueToBeReturnedFromTheFunction = false;
-          bool functionThatReturnsValue(BuildContext context) {
-            ++howManyTimesHaveTheFunctionRan;
-            return true;
-          }
-
-          await _pumpWidget(tester);
-          provideBuildContext((context) {
-            aValueToBeReturnedFromTheFunction = functionThatReturnsValue(context);
-          });
-          await tester.pump();
-
-          expect(aValueToBeReturnedFromTheFunction, isTrue);
-          expect(howManyTimesHaveTheFunctionRan, 1);
         },
       );
     },
