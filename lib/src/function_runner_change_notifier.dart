@@ -1,8 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 
-final functionsStreamController = StreamController<void Function(BuildContext)?>();
+import 'functions_stream_controller.dart';
 
 class FunctionRunnerChangeNotifier {
   void runFunction(Function(BuildContext) function) {

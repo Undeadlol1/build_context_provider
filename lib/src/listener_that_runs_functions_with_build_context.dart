@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'function_runner_change_notifier.dart';
+import 'functions_stream_controller.dart';
 
 /// A widget that runs the functions with build context.
 /// Without this widget present in the application functions will not run.
