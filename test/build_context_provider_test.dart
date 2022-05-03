@@ -5,8 +5,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:build_context_provider/build_context_provider.dart';
 
 class _DummyClassToMock {
-  void firstFunctionToTest(BuildContext context) {}
-  void secondFunctionToTest(BuildContext context) {}
+  void firstFunction(BuildContext context) {}
+  void secondFunction(BuildContext context) {}
   bool functionThatReturnsValue(BuildContext context) => true;
 }
 
@@ -14,7 +14,7 @@ class _MockedDummyClass extends Mock implements _DummyClassToMock {}
 
 class _MockedBuildContext extends Mock implements BuildContext {}
 
-final _mockedClassWithFunctions = _MockedDummyClass();
+final _mockedFunctions = _MockedDummyClass();
 
 void main() {
   group(
@@ -27,8 +27,8 @@ void main() {
       });
 
       tearDown(() {
-        reset(_mockedClassWithFunctions);
-        clearInteractions(_mockedClassWithFunctions);
+        reset(_mockedFunctions);
+        clearInteractions(_mockedFunctions);
       });
 
       testWidgets(
@@ -36,7 +36,7 @@ void main() {
         'THEN should run the function with build context',
         (tester) async {
           await _pumpWidget(tester);
-          provideBuildContext(_mockedClassWithFunctions.firstFunctionToTest);
+          provideBuildContext(_mockedFunctions.firstFunction);
           await tester.pump();
 
           verify(_mockedFunctionCall).called(1);
@@ -47,16 +47,14 @@ void main() {
         'WHEN a function is added twice '
         'THEN should run the functions with build context',
         (tester) async {
-          void mockedFunctionCall() {
-            _mockedClassWithFunctions.secondFunctionToTest(any());
-          }
-
           await _pumpWidget(tester);
-          provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
-          provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
+          provideBuildContext(_mockedFunctions.secondFunction);
+          provideBuildContext(_mockedFunctions.secondFunction);
           await tester.pump();
 
-          verify(mockedFunctionCall).called(2);
+          verify(
+            () => _mockedFunctions.secondFunction(any()),
+          ).called(2);
         },
       );
 
@@ -106,5 +104,5 @@ Future<void> _pumpWidget(WidgetTester tester) {
 }
 
 void _mockedFunctionCall() {
-  _mockedClassWithFunctions.firstFunctionToTest(any());
+  _mockedFunctions.firstFunction(any());
 }
