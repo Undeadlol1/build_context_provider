@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import 'package:build_context_provider/build_context_provider.dart';
 
@@ -64,18 +64,15 @@ void main() {
         (tester) async {
           int howManyTimesHaveTheFunctionRan = 0;
           bool aValueToBeReturnedFromTheFunction = false;
-
           bool functionThatReturnsValue(BuildContext context) {
             ++howManyTimesHaveTheFunctionRan;
             return true;
           }
 
-          void aFunctionThatCapturesReturnedValue(BuildContext context) {
-            aValueToBeReturnedFromTheFunction = functionThatReturnsValue(context);
-          }
-
           await _pumpWidget(tester);
-          provideBuildContext(aFunctionThatCapturesReturnedValue);
+          provideBuildContext((context) {
+            aValueToBeReturnedFromTheFunction = functionThatReturnsValue(context);
+          });
           await tester.pump();
 
           expect(aValueToBeReturnedFromTheFunction, isTrue);
