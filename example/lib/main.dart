@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:build_context_provider/build_context_provider.dart';
 
 void _displaySnackbar() {
-  provideBuildContext((context) {
+  BuildContextProvider()((context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: _Snackbar(),
@@ -54,6 +54,7 @@ class _Layout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final buildContextProvider = BuildContextProvider();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -68,13 +69,13 @@ class _Layout extends StatelessWidget {
       persistentFooterButtons: [
         ElevatedButton(
           child: const Text('Go to first screen'),
-          onPressed: () => provideBuildContext(
+          onPressed: () => buildContextProvider(
             (context) => Navigator.pushNamed(context, '/first'),
           ),
         ),
         ElevatedButton(
           child: const Text('Go to second screen'),
-          onPressed: () => provideBuildContext(
+          onPressed: () => buildContextProvider(
             (context) => Navigator.pushNamed(context, '/second'),
           ),
         ),

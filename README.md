@@ -29,13 +29,7 @@ A package that allows you to run functions that require BuildContext outside of 
 Wrap any functions that you want to run with a provider:
 
 ```dart
-provideBuildContext(
-    (context) => Navigator.pushNamed(context, '/somewhere'),
-),
-```
-or
-```dart
-BuildContextProvider.provideBuildContext(
+BuildContextProvider.call(
     (context) => Navigator.pushNamed(context, '/somewhere'),
 ),
 ```
@@ -45,7 +39,7 @@ BuildContextProvider.provideBuildContext(
 ```dart
 class GoToProfilePage {
   static void call() {
-    provideBuildContext(
+    BuildContextProvider.call(
       (context) => Navigator.pushNamed(context, '/profile'),
     );
   }
@@ -71,7 +65,7 @@ void aFunctionThatCapturesReturnedValue(BuildContext context) {
   aValueToBeReturnedFromTheFunction = functionThatReturnsValue(context);
 }
 
-provideBuildContext(aFunctionThatCapturesReturnedValue);
+BuildContextProvider()(aFunctionThatCapturesReturnedValue);
 
 expect(aValueToBeReturnedFromTheFunction, isTrue);
 ```

@@ -4,6 +4,8 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:build_context_provider/build_context_provider.dart';
 
+final _buildContextProvider = BuildContextProvider();
+
 class _DummyClassToMock {
   void firstFunctionToTest(BuildContext context) {}
   void secondFunctionToTest(BuildContext context) {}
@@ -36,7 +38,7 @@ void main() {
         'THEN should run the function with build context',
         (tester) async {
           await _pumpWidget(tester);
-          provideBuildContext(_mockedClassWithFunctions.firstFunctionToTest);
+          _buildContextProvider(_mockedClassWithFunctions.firstFunctionToTest);
           await tester.pump();
 
           verify(_mockedFunctionCall).called(1);
@@ -52,8 +54,8 @@ void main() {
           }
 
           await _pumpWidget(tester);
-          provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
-          provideBuildContext(_mockedClassWithFunctions.secondFunctionToTest);
+          _buildContextProvider(_mockedClassWithFunctions.secondFunctionToTest);
+          _buildContextProvider(_mockedClassWithFunctions.secondFunctionToTest);
           await tester.pump();
 
           verify(mockedFunctionCall).called(2);
@@ -77,7 +79,7 @@ void main() {
           }
 
           await _pumpWidget(tester);
-          provideBuildContext(aFunctionThatCapturesReturnedValue);
+          _buildContextProvider(aFunctionThatCapturesReturnedValue);
           await tester.pump();
 
           expect(aValueToBeReturnedFromTheFunction, isTrue);
