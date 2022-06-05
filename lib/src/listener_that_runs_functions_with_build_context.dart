@@ -46,6 +46,7 @@ class _ListenerThatRunsFunctionsWithBuildContextState
 
   void _setupUpFunctionRunnerListener() {
     if (_wasListenerAddedToChangeNotifier ||
+        // ignore: invalid_use_of_protected_member
         functionRunnerChangeNotifier.hasListeners) {
       return;
     }
