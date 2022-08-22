@@ -16,7 +16,7 @@ A package that allows you to run functions that require BuildContext outside of 
 
 * Drop ListenerThatRunsFunctionsWithBuildContext() somewhere in the application. It is best to place it in the root of the app.
 ```dart
-    return Column(
+    return Stack(
           children: [
             child,
             const ListenerThatRunsFunctionsWithBuildContext(),
