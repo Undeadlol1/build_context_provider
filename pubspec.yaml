@@ -1,6 +1,6 @@
 name: build_context_provider
 description: A package that allows you to run functions that require BuildContext outside of Flutter widgets.
-version: 1.0.0
+version: 1.1.0
 repository: https://github.com/Undeadlol1/build_context_provider
 
 platforms:

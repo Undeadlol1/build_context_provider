@@ -1,3 +1,7 @@
+## 1.1.0
+
+Minor documentation update.
+
 ## 1.0.0
 
 Breaking changes:
