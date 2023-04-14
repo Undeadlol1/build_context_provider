@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 
 import 'function_runner_change_notifier.dart';
@@ -22,12 +24,17 @@ class _ListenerThatRunsFunctionsWithBuildContextState
     super.dispose();
   }
 
-  void _runFunctionWhenNotified() {
-    final functionToRun = functionRunnerChangeNotifier.functionToRun;
+  void _runFunctionWhenNotified() async {
+    try {
+      log('Running function with build context...');
+      final functionToRun = functionRunnerChangeNotifier.functionToRun;
 
-    Future.microtask(
-      () => functionToRun == null ? null : functionToRun(context),
-    );
+      await Future.microtask(
+        () => functionToRun == null ? null : functionToRun(context),
+      );
+    } catch (e) {
+      log('Error in BuildContextProvider: $e');
+    }
   }
 
   @override
@@ -45,13 +52,17 @@ class _ListenerThatRunsFunctionsWithBuildContextState
   }
 
   void _setupUpFunctionRunnerListener() {
+    log('Setting up function runner listener...');
     if (_wasListenerAddedToChangeNotifier ||
         // ignore: invalid_use_of_protected_member
         functionRunnerChangeNotifier.hasListeners) {
+      log('Function runner listener was already set up.');
       return;
     }
 
     functionRunnerChangeNotifier.addListener(_runFunctionWhenNotified);
+    log('Function runner listener was set up.');
+    log('Rebuilding...');
     setState(() => _wasListenerAddedToChangeNotifier = true);
   }
 }
