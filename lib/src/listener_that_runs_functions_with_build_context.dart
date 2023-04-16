@@ -20,6 +20,9 @@ class _ListenerThatRunsFunctionsWithBuildContextState
 
   @override
   void dispose() {
+    log('Removing listener from function runner change notifier...');
+
+    // @audit
     functionRunnerChangeNotifier.removeListener(_runFunctionWhenNotified);
     super.dispose();
   }
@@ -28,6 +31,8 @@ class _ListenerThatRunsFunctionsWithBuildContextState
     try {
       log('Running function with build context...');
       final functionToRun = functionRunnerChangeNotifier.functionToRun;
+
+      log('Is context mounted: ${context.mounted}');
 
       await Future.microtask(
         () => functionToRun == null ? null : functionToRun(context),
